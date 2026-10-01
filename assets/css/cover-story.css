@@ -1,0 +1,295 @@
+/* =========================================================
+   Portada y bandas de historia — XV Abril Aracely
+   Archivo NUEVO. No modifica assets/css/style.css.
+   Debe cargarse DESPUÉS de style.css.
+   ========================================================= */
+
+:root {
+  --xv-ink: #101010;
+  --xv-clay: #c8a898;
+  --xv-olive: #657150;
+  --xv-body: #585858;
+  --xv-veil: 28, 22, 20;
+}
+
+/* ---------------------------------------------------------
+   1. Portada a sangre
+   --------------------------------------------------------- */
+
+.cover {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background-color: var(--xv-ink);
+  min-height: 86vh;
+  min-height: 86svh;
+}
+
+@media (min-width: 992px) {
+  .cover {
+    min-height: 92vh;
+    min-height: min(92svh, 960px);
+  }
+}
+
+/* Desde 992px el header del tema va absoluto y transparente sobre la portada,
+   así que el logo necesita contraste. Por debajo de 992px el header es una
+   barra clara normal y el logo conserva su color oscuro original. */
+@media (min-width: 992px) {
+  .wpo-site-header .navigation.original .navbar-header .logo {
+    color: #fff;
+    text-shadow: 0 1px 24px rgba(0, 0, 0, 0.45);
+  }
+}
+
+.cover__media {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.cover__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Ajusta el encuadre desde el HTML con style="--cover-focal: 50% 20%" */
+  object-position: var(--cover-focal, 50% 38%);
+}
+
+.cover__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(var(--xv-veil), 0.84) 0%,
+    rgba(var(--xv-veil), 0.6) 26%,
+    rgba(var(--xv-veil), 0.2) 56%,
+    rgba(var(--xv-veil), 0) 80%
+  );
+}
+
+.cover__body {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 64px) clamp(36px, 7vh, 84px);
+  color: #fff;
+  text-align: center;
+}
+
+@media (min-width: 992px) {
+  .cover__body {
+    text-align: left;
+  }
+}
+
+.cover__kicker {
+  margin: 0 0 clamp(6px, 1.2vw, 14px);
+  font-family: "Jost", sans-serif;
+  font-size: clamp(16px, 2vw, 21px);
+  font-weight: 300;
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.cover__name {
+  margin: 0;
+  font-family: "Sail", cursive;
+  font-size: clamp(54px, 12.5vw, 150px);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: #fff;
+  text-wrap: balance;
+}
+
+.cover__when {
+  margin: clamp(14px, 2.4vw, 26px) 0 0;
+  font-family: "Jost", sans-serif;
+  font-size: clamp(15px, 1.9vw, 20px);
+  font-weight: 400;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.cover__when span {
+  display: block;
+}
+
+/* Cuenta regresiva */
+.cover__countdown {
+  margin-top: clamp(20px, 3.5vh, 40px);
+}
+
+.cover__countdown #clock {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(18px, 5vw, 56px);
+}
+
+@media (min-width: 992px) {
+  .cover__countdown #clock {
+    justify-content: flex-start;
+  }
+}
+
+.cover__countdown #clock .box {
+  min-width: 56px;
+}
+
+.cover__countdown #clock .time {
+  font-family: "Jost", sans-serif;
+  font-size: clamp(26px, 4.2vw, 44px);
+  font-weight: 300;
+  line-height: 1;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Las etiquetas se traducen en assets/js/cover-story.js */
+.cover__countdown #clock .box span {
+  display: block;
+  margin-top: 6px;
+  font-size: clamp(12px, 1.4vw, 15px);
+  font-weight: 400;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* Un solo momento de movimiento: la entrada de la portada.
+   El estado oculto solo se aplica si el JS está activo. */
+@media (prefers-reduced-motion: no-preference) {
+  .cover.js-reveal .cover__img {
+    transform: scale(1.07);
+    transition: transform 2.6s cubic-bezier(0.16, 0.84, 0.34, 1);
+  }
+
+  .cover.js-reveal.is-ready .cover__img {
+    transform: scale(1);
+  }
+
+  .cover.js-reveal .cover__kicker,
+  .cover.js-reveal .cover__name,
+  .cover.js-reveal .cover__when,
+  .cover.js-reveal .cover__countdown {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.16, 0.84, 0.34, 1);
+  }
+
+  .cover.js-reveal.is-ready .cover__kicker,
+  .cover.js-reveal.is-ready .cover__name,
+  .cover.js-reveal.is-ready .cover__when,
+  .cover.js-reveal.is-ready .cover__countdown {
+    opacity: 1;
+    transform: none;
+  }
+
+  .cover.js-reveal.is-ready .cover__kicker {
+    transition-delay: 0.08s;
+  }
+  .cover.js-reveal.is-ready .cover__name {
+    transition-delay: 0.18s;
+  }
+  .cover.js-reveal.is-ready .cover__when {
+    transition-delay: 0.34s;
+  }
+  .cover.js-reveal.is-ready .cover__countdown {
+    transition-delay: 0.46s;
+  }
+}
+
+/* ---------------------------------------------------------
+   2. Bandas de historia (reemplazan el círculo + flores)
+   --------------------------------------------------------- */
+
+.story-bleed {
+  width: 100%;
+}
+
+.story-band {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.story-band + .story-band {
+  margin-top: clamp(48px, 7vw, 104px);
+}
+
+.story-band__media {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  background-color: #f1ece8;
+  aspect-ratio: 4 / 5;
+}
+
+.story-band__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--band-focal, 50% 30%);
+}
+
+.story-band__copy {
+  padding: clamp(26px, 6vw, 40px) clamp(20px, 6vw, 40px) 0;
+  text-align: center;
+}
+
+.story-band__copy h2 {
+  max-width: 22ch;
+  margin: 0 auto clamp(12px, 1.6vw, 20px);
+  font-family: "Jost", sans-serif;
+  font-size: clamp(26px, 3.2vw, 40px);
+  font-weight: 400;
+  line-height: 1.16;
+  color: var(--xv-ink);
+  text-wrap: balance;
+}
+
+.story-band__copy p {
+  max-width: 44ch;
+  margin: 0 auto;
+  font-family: "Jost", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 30px;
+  color: var(--xv-body);
+}
+
+@media (min-width: 992px) {
+  .story-band {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .story-band__media {
+    aspect-ratio: auto;
+    height: clamp(480px, 46vw, 700px);
+  }
+
+  .story-band__copy {
+    padding: clamp(32px, 4vw, 56px) clamp(40px, 6vw, 110px);
+    text-align: left;
+  }
+
+  .story-band__copy h2,
+  .story-band__copy p {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .story-band__copy h2 {
+    margin-bottom: clamp(12px, 1.6vw, 20px);
+  }
+
+  .story-band--flip .story-band__media {
+    order: 2;
+  }
+}
